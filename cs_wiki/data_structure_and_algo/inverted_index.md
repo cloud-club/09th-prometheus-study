@@ -144,7 +144,7 @@ func (p *MemPostings) addFor(id storage.SeriesRef, l labels.Label) {
         p.lvs[l.Name] = appendWithExponentialGrowth(p.lvs[l.Name], l.Value)
     }
     // 현재 데이터의 id를 추가
-    list := appendWithExponentialGrowt  (vm, id)
+    list := appendWithExponentialGrowth(vm, id)
     nm[l.Value] = list
 
     // 이미 정렬되어있으면 return
@@ -160,3 +160,8 @@ func (p *MemPostings) addFor(id storage.SeriesRef, l labels.Label) {
     }
 }
 ```
+---
+
+* 참고
+https://ganeshvernekar.com/blog/prometheus-tsdb-the-head-block/
+https://web.archive.org/web/20220205173824/https://fabxc.org/tsdb/
