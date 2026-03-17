@@ -6,10 +6,57 @@ About computer arch & optimization
 - Garbage Collection
 - Review: Writing a Time Series Database from Scratch (개인적 리뷰)
 
+
 ## Memory Hierarchy
+<img width="643" height="486" alt="image" src="https://github.com/user-attachments/assets/4f1f267a-a8e2-42c7-a14b-06aa45943246" />
+
+### CPU 레지스터/L1 ~ L3 캐시
+<img width="682" height="308" alt="image" src="https://github.com/user-attachments/assets/e50f7b70-741e-4038-a9c1-6d878a8b1416" />
+
+- CPU 캐시에서 RAM에 저장하기전에 Gorilla 압축을 통해 데이터 압축이 일어납니다.
+- L1 캐시가 CPU 코어와 가깝기에 압축이 일어나고, L2, L3 캐시에 압축된 것이 저장됩니다.
+- 훨씬 많은 데이터를 압축해서 저장하기에 캐시 적중률을 높입니다.
+
+
+### 주기억장치(RAM)
+<img width="678" height="433" alt="image" src="https://github.com/user-attachments/assets/e4e033b5-bd2e-454a-890a-4ed8d64a129c" />
+
+- Append-Only 구조입니다.
+- 인덱스 캐시는 라벨셋 문자열({job="api", instance="10.0.0.1"})을 정수 해시로 바꿔서 해당 Active Chunk의 메모리 주소를 바로 리턴합니다.
+
+
+### 보조기억장치(SSD/HDD)
+- 데이터의 영구 저장을 담당하는 역할을 수행합니다.
+- WAL: RAM의 휘발성을 보완하는 역할을 수행합니다.
+  - 메모리에 쓰는 동시에, 디스크에도 순차적 쓰기가 발생합니다. (순차적 쓰기는 물리적으로 가장 빠른 쓰기 방식입니다.)
+- Persistent Block: 특정 기준을 충족하면 데이터를 묶어서 디스크에 씁니다.
+  - 이때 데이터를 한번 정렬하고 압축하여, 나중에 읽기 시 디스크 I/O를 최소화하도록 합니다.
+
+### 순차적 쓰기
+<img width="696" height="320" alt="image" src="https://github.com/user-attachments/assets/8835b8e1-5deb-4102-895f-7d6f713dbfd1" />
+
+- HDD의 경우 헤드가 매번 새 위치를 찾아 이동하는 Seek time과 플래터가 해당 섹터까지 회전해오는 Rotational latency 가 중첩되기 때문입니다.
+<img width="665" height="337" alt="image" src="https://github.com/user-attachments/assets/e3ec9aa3-626c-4fe4-a71f-375e8edcb612" />
+
+- SSD의 경우 NAND Block 구조를 가지는데, 덮어쓰시가 불가능합니다.
+- Page단위로 수정을 할 수 없고, Block단위로 수정을 해야합니다.
 
 
 ## Garbage Collection
+### Series Garbage Collection
+- 프로메테우스는 stripeSeries라는 구조체로 메모리에 띄워진 인덱스 참조를 관리하는데, 데이터가 없어도 라벨은 남아있는 상황이 발생합니다. (Series Churn 상태)
+- Compaction(기본적으로 2시간)이 일어날때 삭제가 발생하게 됩니다.
+
+### Block Garabe Collection
+1. Retention 삭제 (물리적)
+  - Retention이 만료되면 os.RemoveAll()로 디렉토리를 삭제합니다.
+  - 이때 block자체는 immutable이므로 lock경합 또한 피할 수 있습니다.
+<img width="691" height="455" alt="image" src="https://github.com/user-attachments/assets/06269418-d547-4fc8-8749-197fd4ae10dc" />
+
+
+2. Tombstone 삭제(논리적)
+   - tombstone을 통해 삭제 대상이라고 마킹만 하고, compaction 단계시 마킹된 것만 제외하고 새로운 block을 구성하게 됩니다.
+  
 
 
 ## Review: Writing a Time Series Database from Scratch
