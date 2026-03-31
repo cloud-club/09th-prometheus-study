@@ -85,10 +85,24 @@ container_oom_events_total : OOM 킬 감지
 
 실습  
 
-**Before 수집** : 스왑 사용량 기준선과 파라미터 현재값 수집  
+**Before 수집** : 스왑 사용량 기준선과 파라미터 현재값 수집 
+
 ![img_2.png](img/img_2.png)  
-현재 파라미터 설정값 
-![img_3.png](img/img_3.png)  
+현재 파라미터 설정값 확인
+
+
+![img_3.png](img/img_3.png)
+
+현재 가용 메모리 : 550M~580M
+
+![img_4.png](img/img_4.png) 
+
+현재 swap 메모리 사용량 : 대략 65M
+
+![img_5.png](img/img_5.png)
+
+일시적 컨테이너 생성 후 vm.swappiness 확인 : 60으로 동일
+
 
 **파라미터 변경** : 스왑 적극성 조정 — 극단값으로 차이를 극대화  
 **워크로드 투입** : 컨테이너 내부에서 메모리 압박 발생  
