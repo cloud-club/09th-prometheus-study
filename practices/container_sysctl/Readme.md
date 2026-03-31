@@ -75,21 +75,27 @@ CoW (Copy-on-Write) 기술 덕분에 자식 프로세스는 부모의 물리 메
 
 수집 Metric :  
 node_exporter  
-node_memory_SwapUsed_bytes : 현재 스왑 사용량  
+node_memory_SwapTotal_bytes - node_memory_SwapFree_bytes : 현재 스왑 사용량  
 node_memory_MemAvailable_bytes : 가용 메모리
 
 cAdvisor  
 container_memory_swap : 컨테이너 스왑 사용량  
 container_memory_usage_bytes : 메모리 사용량 추이  
-container_oom_events_total : OOM 킬 감지  
-단계  
+container_oom_events_total : OOM 킬 감지 
+
+실습  
 
 **Before 수집** : 스왑 사용량 기준선과 파라미터 현재값 수집  
+![img_2.png](img/img_2.png)  
+현재 파라미터 설정값 
+![img_3.png](img/img_3.png)  
+
 **파라미터 변경** : 스왑 적극성 조정 — 극단값으로 차이를 극대화  
 **워크로드 투입** : 컨테이너 내부에서 메모리 압박 발생  
 **After 확인** : 호스트 전체 메모리/스왑 변화 와 컨테이너 메모리 메트릭 확인  
 
-실습
+
+
 
 #### 시나리오 2 : Net namespace 스코프 파라미터 튜닝 (Namespace 파라미터)
 
