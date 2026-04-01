@@ -202,13 +202,13 @@ Committed_AS에서는 사실상 제한없는 memorycommit을 허용하고 있지
 
 여기서 의문이 생기는 것이 많았지만 가장 궁금한 것은 
 
-_swapiness를 0으로 유지하고 overcommit = 2로 설정한 뒤, CommitLimit을 빡빡하게 설정하면 다른 결과가 나올까?_
+_swapiness를 0으로 유지하고 overcommit = 2로 설정한 뒤, CommitLimit을 빡빡하게 설정하면 다른 결과가 나올까?_ 
+
 이때까지 실습으로 유추했을 경우, 만약 commitlimt - committed_as가 500mb 미만일 경우 시작조차 하지 않을 것이라고 생각된다.  
 맞는지 한 번 검증해보자.
 
-![img_23.png](img/img_23.png)
 
-overcommit_ratio 파라미터를 120 으로 설정하여서 committed_as(address space)보다 약간의 여유가 있도록 설정하였다.
+overcommit_ratio 파라미터를 110 으로 설정하여서 committed_as(address space)보다 약간의 여유가 있도록 설정하였다.
 처음에 overcommit_ratio 파라미터가 기존에는 50이었고, commitlimit 가 committed_as 보다 낮은 상태에서
 확인도 안하고 overcommit=2 를 키자마자 서버가 마비되어버렸다.. 만약 이를 영구 설정으로 해놨었다면 꼼짝없이 복구모드에 들어가야 했을 것이다.
 의도치 않았지만 memmorycommit 의 중요성을 체감하였다.
