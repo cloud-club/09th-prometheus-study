@@ -384,3 +384,8 @@ func (cdm *ChunkDiskMapper) Truncate(fileNo uint32) error {
 Truncate()에서 파일 번호를 정렬한 뒤, 현재 쓰고 있는 live file이 아니면서 truncation 경계 이전에 있는 파일만 앞에서부터 연속적으로 삭제 대상으로 고른다.  
 여기서 break를 사용하는 이유는 중간 파일은 남겨둔 채 뒤 파일만 삭제하는 상황을 막고, 파일 sequence를 보존하기 위해서다.  
 또한 삭제 전에 CutNewFile()을 호출해 현재 live file을 닫고 새 파일로 회전시킴으로써, 이후 GC가 닫힌 파일만 대상으로 안정적으로 동작하도록 한다.
+
+## 5. Reference
+https://github.com/prometheus/prometheus/blob/main/tsdb/chunks/head_chunks.go
+https://github.com/prometheus/prometheus/blob/main/tsdb/head.go
+https://ganeshvernekar.com/blog/prometheus-tsdb-mmapping-head-chunks-from-disk/
