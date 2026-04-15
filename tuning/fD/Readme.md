@@ -43,20 +43,35 @@ Select()를 통한 지연 병합(Lazy Merge)
 
 ![img.png](img/img.png)
 
+우선 현재 서버의 fs.file-max 값을 확인해보겠다. 아무것도 건드리지않은 순정 상태인데 말도 안되게 높게 잡혀있는 모습인데,
+찾아본 결과 권장되는 값은 메모리를 kb 표현했을 때의 10 프로 수준으로 본 vm이 200,000 내외 라는 것이다.
+
 ![img.png](img/img_1.png)
+
+file-nr은 현재 현재 커널이 할당해서 사용 중인 파일 핸들의 총 개수 / 할당은 되었으나 현재는 사용되지 않고 비어 있는 파일 핸들 수 / 시스템 전체에서 가질 수 있는 최대 파일 핸들 수(fs.file-max)
 
 ![img.png](img/img_2.png)
 
+현재 서버의 ulimit -n 값입니다.
+
 ![img.png](img/img_3.png)
+
+프로메테우스 컨테이너의 ulimit 값입니다.
 
 ![img.png](img/img_4.png)
 
+현재 프로메테우스가 열고 있는 FD의 개수입니다.
+
 ![img.png](img/img_5.png)
 
+Persisted Blocks 을 확인할 수 있습니다. 해당 블록을에서 프로메테우스가 
 ![img.png](img/img_6.png)
+
+
 
 ![img.png](img/img_7.png)
 
+스트레스 테스트에 의하여 프로메테우스 내부의 ulimit 값을 넘어서 FD가 발생하여 too many open files 에러 발생.
 ![img.png](img/img_8.png)
 
 ![img.png](img/img_9.png)
