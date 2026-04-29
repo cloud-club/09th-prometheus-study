@@ -75,6 +75,11 @@ index:
 
 - `write pointer`: 새 데이터를 쓸 위치를 가리킨다.
 - `read pointer`: 데이터를 읽을 위치를 가리킨다.
+- 
+<img alt="img.png" height="350" src="images/circular_buffer.png" width="500"/>
+<img alt="img_1.png" height="350" src="images/circular_buffer2.png" width="500"/>
+<img alt="img_2.png" height="350" src="images/circular_buffer3.png" width="500"/>
+<img alt="img_3.png" height="350" src="images/circular_buffer4.png" width="500"/>
 
 데이터를 쓸 때는 `write pointer`가 이동하고, 데이터를 읽을 때는 `read pointer`가 이동한다.  
 두 pointer 모두 버퍼의 끝에 도달하면 다시 처음 위치로 돌아간다.
@@ -122,10 +127,6 @@ index가 배열의 끝을 넘어가면 다시 `0`으로 돌아가기 때문에, 
 따라서 배열 크기가 `N`이어도 동시에 저장 가능한 데이터는 최대 `N - 1`개다.
 
 
-<img alt="img.png" height="350" src="images/circular_buffer.png" width="500"/>
-<img alt="img_1.png" height="350" src="images/circular_buffer2.png" width="500"/>
-<img alt="img_2.png" height="350" src="images/circular_buffer3.png" width="500"/>
-<img alt="img_3.png" height="350" src="images/circular_buffer4.png" width="500"/>
 
 이 자료구조는 다음과 같은 경우에 적합하다.
 
